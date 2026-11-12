@@ -8,14 +8,15 @@
     <link rel="stylesheet" href="./triage.css" />
     <link rel="stylesheet" href="./tags.css" />
     <link rel="stylesheet" href="./follow.css" />
+    <link rel="stylesheet" href="./collection.css" />
   </head>
   <body>
     <div class="app">
       <!-- Top bar: only what both modes share (brand, mode switch, the narrow-width folder or tag select, 帮助). -->
       <header class="topbar">
         <div class="brand" data-text="triage"><span class="brand-mark" aria-hidden="true"></span>B站分拣台</div>
-        <!-- 收藏夹 | 关注: follow.js owns the switch and the 关注 mode (body.follow-mode). -->
-        <span id="modeSwitch" class="seg mode-switch" role="group" aria-label="分拣什么"><button type="button" data-mode="fav" aria-pressed="true">收藏夹</button><button type="button" data-mode="follow" aria-pressed="false">关注</button></span>
+        <!-- 收藏夹 | 关注 | 合集: follow.js owns the switch; collection.js draws body.collection-mode. -->
+        <span id="modeSwitch" class="seg mode-switch" role="group" aria-label="分拣什么"><button type="button" data-mode="fav" aria-pressed="true">收藏夹</button><button type="button" data-mode="follow" aria-pressed="false">关注</button><button type="button" data-mode="collection" aria-pressed="false">合集</button></span>
         <!-- The select holds the open folder (every reader and writer keeps using it); the sidebar list is drawn from its options. -->
         <select id="folderSelect" class="folder-select" aria-label="当前收藏夹"></select>
         <button id="helpBtn" type="button" class="help-btn" title="帮助和快捷键 (?)" aria-label="帮助 (?)">?</button>
@@ -34,6 +35,7 @@
           <div id="folderList" class="folder-list"></div>
         </aside>
         <aside id="followSide" class="side follow-side" aria-label="关注分组" hidden></aside>
+        <aside id="collectionSide" class="side collection-side" aria-label="合集筛选" hidden></aside>
 
         <div id="main" class="main">
           <!-- 关注 mode: follow.js draws head, tabs, filters and list into the same grid areas as the folder view. -->
@@ -90,6 +92,12 @@
           <!-- Rides on the player's top-right corner, outside #viewer so its overflow does not clip it. -->
           <button id="viewerCloseBtn" type="button" class="viewer-close" aria-label="关闭播放（Esc）" title="关闭播放（Esc）">×</button>
         </div>
+        <main id="collectionMain" class="main collection-main" hidden>
+          <div id="collectionHead" class="folder-head"></div>
+          <div id="collectionTools" class="tabrow"></div>
+          <div id="collectionBar" class="stagebar"></div>
+          <div id="collectionList" class="list collection-list" aria-label="订阅合集列表"></div>
+        </main>
       </div>
     </div>
 
@@ -375,7 +383,8 @@
     <script src="./tag-picker.js"></script>
     <script src="./tag-dialogs.js"></script>
     <script src="./triage-core.js"></script>
-<script src="./fav-records.js"></script>
+    <script src="./fav-records.js"></script>
+    <script src="./collection-core.js"></script>
     <script src="./runs.js"></script>
     <script src="./tag-store.js"></script>
     <script src="./writes.js"></script>
@@ -389,6 +398,7 @@
     <script src="./fav-page.js"></script>
     <script src="./follow-core.js"></script>
     <script type="module" src="./triage.js"></script>
+    <script type="module" src="./collection.js"></script>
     <script type="module" src="./follow.js"></script>
   </body>
 </html>

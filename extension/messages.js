@@ -15,6 +15,8 @@
   const TRIAGE_BG = "triage/triage-bg.js";
   const FOLLOW_BG = "triage/follow-bg.js";
   const FOLLOW = ["triage/follow.js"];
+  const COLLECTION_BG = "triage/collection-bg.js";
+  const COLLECTION = ["triage/collection.js"];
   // follow-core.js builds these requests (groupCalls, aiRequests); follow.js sends what it built.
   const FOLLOW_CORE = ["triage/follow-core.js"];
   const data = ["data"];
@@ -116,6 +118,12 @@
     "follow-group-delete": { from: FOLLOW, to: FOLLOW_BG, request: ["id"], response: data },
     "follow-ai-tag": { from: FOLLOW_CORE, to: FOLLOW_BG, request: ["instruction", "mids", "tags", "maxNewTags", "allowRemove", "aiProviderId", "scope"], response: data },
     "follow-up-tag": { from: ["badges.js"], to: FOLLOW_BG, request: ["mid", "op"], response: data },
+
+    // 分拣台 合集 (answers are { ok, data })
+    "collection-list": { from: COLLECTION, to: COLLECTION_BG, request: [], response: data },
+    "collection-detail": { from: COLLECTION, to: COLLECTION_BG, request: ["id"], response: data },
+    "collection-unfav": { from: COLLECTION, to: COLLECTION_BG, request: ["id"], response: data },
+    "collection-ai": { from: COLLECTION, to: COLLECTION_BG, request: ["collections", "aiProviderId"], response: data },
 
     // The 分拣台 player frame (viewer-frame.js, a content script in B站's page) to the 分拣台 page: window.postMessage
     "mdg-viewer-key": { from: ["triage/viewer-frame.js"], to: "triage/shared.js", request: ["key"], response: [] },

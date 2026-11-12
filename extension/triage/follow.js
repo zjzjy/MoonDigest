@@ -255,9 +255,27 @@ async function untagGone(mid, id, name) {
 
 // ---------- mode ----------
 async function setMode(mode, save = true) {
+  if (mode === "collection") {
+    if (F.mode === "collection") return;
+    TagPicker.close();
+    if (T.viewing()) T.closeViewer();
+    F.mode = mode;
+    document.body.classList.remove("follow-mode");
+    document.body.classList.add("collection-mode");
+    side.hidden = main.hidden = true;
+    for (const b of document.querySelectorAll("#modeSwitch [data-mode]")) b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
+    if (save) saveView();
+    await globalThis.MoonCollections?.activate();
+    headSync();
+    return;
+  }
   if (mode === F.mode) return;
   TagPicker.close();
   if (T.viewing()) T.closeViewer();
+  if (F.mode === "collection") {
+    document.body.classList.remove("collection-mode");
+    await globalThis.MoonCollections?.deactivate();
+  }
   F.mode = mode;
   const on = mode === "follow";
   document.body.classList.toggle("follow-mode", on);

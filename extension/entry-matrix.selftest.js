@@ -94,6 +94,7 @@ const ENTRIES = {
   "triage/fav-tags.js": "分拣台 收藏夹",
   "triage/fav-writes.js": "分拣台 收藏夹",
   "triage/follow.js": "关注",
+  "triage/collection.js": "分拣台 合集",
   "triage/tag-store.js": "分拣台和摘读记录的 AI 打标签"
 };
 const PAGES = {

@@ -15,7 +15,7 @@ const files = PS.walk().filter((f) => f.endsWith(".js") && !f.endsWith(".selftes
 // Globals: whatever a file publishes as globalThis.X = ...
 const definedBy = {};
 for (const f of files) for (const m of read(f).matchAll(/globalThis\.([A-Z]\w+)\s*=/g)) definedBy[m[1]] ??= f;
-for (const g of ["MdgCommon", "MdgLimits", "MdgErrors", "MdgSettings", "MdgSites", "MdgTagCore", "MdgSurfaces", "MdgNote", "MdgTyping", "MdgDownload", "MdgOverwriteDialog", "MdgNoteActions", "TriageUi", "TriageCore", "FollowCore", "MoonTriage", "TagPicker", "TagDialogs"]) {
+for (const g of ["MdgCommon", "MdgLimits", "MdgErrors", "MdgSettings", "MdgSites", "MdgTagCore", "MdgSurfaces", "MdgNote", "MdgTyping", "MdgDownload", "MdgOverwriteDialog", "MdgNoteActions", "TriageUi", "TriageCore", "CollectionCore", "FollowCore", "MoonTriage", "TagPicker", "TagDialogs"]) {
   assert.ok(definedBy[g], `no file defines ${g}`);
 }
 const code = (f) => read(f).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:"'`\\])\/\/.*$/gm, "$1");

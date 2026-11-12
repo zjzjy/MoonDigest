@@ -87,7 +87,7 @@ const ctx = vm.createContext({
 // The classic scripts triage.html loads, read from the page so the test cannot load a different set; they all run before
 // its modules (triage.js, then follow.js). tag-dialogs.js is left out: TagDialogs above stands in for it.
 const pageScripts = [...fs.readFileSync(path.join(__dirname, "triage.html"), "utf8").matchAll(/<script([^>]*) src="([^"]+)"/g)];
-assert.deepStrictEqual(pageScripts.filter((m) => /type="module"/.test(m[1])).map((m) => m[2]), ["./triage.js", "./follow.js"], "triage.html's modules");
+assert.deepStrictEqual(pageScripts.filter((m) => /type="module"/.test(m[1])).map((m) => m[2]), ["./triage.js", "./collection.js", "./follow.js"], "triage.html's modules");
 for (const [, attrs, src] of pageScripts) {
   if (!/type="module"/.test(attrs) && !src.endsWith("/tag-dialogs.js")) vm.runInContext(fs.readFileSync(path.join(__dirname, src), "utf8"), ctx);
 }

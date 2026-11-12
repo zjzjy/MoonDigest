@@ -1313,7 +1313,7 @@ async function probeAiChatCompletion({ baseUrl, apiKey, model }) {
 // follow-core.js (FollowCore) gives follow-bg.js the page's groupsOf, so an UP's groups are read one way on both sides.
 // triage-core.js and fav-records.js: the 收藏夹's stored records, kept here as the 分拣台 page keeps them (the agent
 // interface's writes and sync).
-importScripts("obsidian.js", "triage/triage-bg.js", "triage/triage-core.js", "triage/fav-records.js", "triage/follow-core.js", "triage/follow-bg.js");
+importScripts("obsidian.js", "triage/triage-bg.js", "triage/triage-core.js", "triage/fav-records.js", "triage/follow-core.js", "triage/follow-bg.js", "triage/collection-core.js", "triage/collection-bg.js");
 // The agent interface's personal-data methods (docs/AGENT.md §2) read through triage-bg.js and follow-core.js.
 importScripts("agent-mydata.js");
 importScripts("agent-video.js");

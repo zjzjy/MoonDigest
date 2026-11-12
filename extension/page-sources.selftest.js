@@ -48,19 +48,20 @@ const own = (where) => {
 };
 // Every script some shipped runtime loads.
 const shipped = [...new Set(runtimes.filter((r) => !r.dev).flatMap((r) => r.files))];
-// 分拣台's two modes: 关注's scripts are named follow* (the worker may load one too); 收藏夹's are the rest of the page's
-// own scripts but the libraries both modes load. triage is the page's code: its own scripts and 关注's.
+// 分拣台's three modes: 关注's scripts are named follow*, 合集's collection*, 收藏夹's are the rest of the page's own
+// scripts but the shared libraries. triage is the page's code: its own scripts and both peer modes'.
 const bothModes = ["triage/tag-picker.js", "triage/tag-dialogs.js", "triage/tag-store.js", "triage/runs.js", "triage/writes.js"];
 const follow = scripts("triage/triage.html").filter((f) => /^follow/.test(path.basename(f)));
-const favorites = own("triage/triage.html").filter((f) => !follow.includes(f) && !bothModes.includes(f));
-const triage = [...new Set([...own("triage/triage.html"), ...follow, ...bothModes])];
+const collection = scripts("triage/triage.html").filter((f) => /^collection/.test(path.basename(f)));
+const favorites = own("triage/triage.html").filter((f) => !follow.includes(f) && !collection.includes(f) && !bothModes.includes(f));
+const triage = [...new Set([...own("triage/triage.html"), ...follow, ...collection, ...bothModes])];
 // Every shipped runtime's own scripts and 分拣台's: the code of the pages, the worker and the content scripts, without
 // the libraries.
 const pageCode = [...new Set([...runtimes.filter((r) => !r.dev).flatMap((r) => own(r.where)), ...triage])];
 // The files' text as one string.
 const text = (files) => files.map(read).join("\n");
 
-module.exports = { read, text, walk, pageScripts, runtimes, scripts, own, shipped, pageCode, triage, favorites, follow };
+module.exports = { read, text, walk, pageScripts, runtimes, scripts, own, shipped, pageCode, triage, favorites, follow, collection };
 
 if (require.main === module) {
   // messages.js is the message list messages.selftest.js checks; it is not shipped.
@@ -70,7 +71,7 @@ if (require.main === module) {
   assert.deepStrictEqual(own("popup.html"), ["popup.js"]);
   assert.deepStrictEqual(own("content.js"), ["agent-page.js", "content.js"], "both content.js entries are one runtime");
   assert.ok(own("background.js").includes("triage/follow-bg.js") && !own("background.js").includes("triage/shared.js"));
-  assert.ok(favorites.includes("triage/fav-page.js") && follow.includes("triage/follow.js") && !favorites.includes("triage/shared.js"));
+  assert.ok(favorites.includes("triage/fav-page.js") && follow.includes("triage/follow.js") && collection.includes("triage/collection.js") && !favorites.includes("triage/shared.js"));
   assert.ok(bothModes.every((f) => scripts("triage/triage.html").includes(f)), "bothModes names files the page loads");
   // The selftests list files through walk only: eleven copies of it once disagreed on Windows' \. A selftest that
   // reads a directory of its own (not extension/) is named here with why. Only extension/'s selftests are checked:

@@ -15,15 +15,17 @@
 
 收藏了的视频、想读的网页，MoonDigest 帮你用 AI 读完、整理好。数据都留在你的浏览器里，没有作者的服务器。
 
+> **这是 [zjzjy/MoonDigest](https://github.com/zjzjy/MoonDigest) fork。** 在 [PathGao/MoonDigest](https://github.com/PathGao/MoonDigest) 3.8.1 的基础上，增加了“订阅合集”分拣：读取“我追的合集/收藏夹”，用 AI 提炼内容，展示最新 3 条、更新时间和更新频率，并支持批量取消订阅。下面是这个 fork 的安装和使用说明；上游原版的更新与发布仍以 [PathGao/MoonDigest](https://github.com/PathGao/MoonDigest) 为准。
+
 <p align="center">
   <img src="docs/images/hero-sidepanel.png" alt="B站视频页右侧的 AI 侧边栏：顶部是视频标题和模型，下面是这个视频的备注、AI 总结（一句话总结、带时间戳的要点），底部是快捷追问和输入框" width="900">
 </p>
 
-<p align="center"><a href="https://chromewebstore.google.com/detail/bnjihpbocpimaipifanfkjjpfdbigggd">安装</a> · <a href="docs/FAQ.md">常见问题</a> · <a href="https://github.com/PathGao/MoonDigest/issues">反馈</a></p>
+<p align="center"><a href="#安装与更新">安装本 fork</a> · <a href="docs/FAQ.md">常见问题</a> · <a href="https://github.com/zjzjy/MoonDigest/issues">反馈</a></p>
 
 ## 快速开始
 
-1. 从 [Chrome 应用商店](https://chromewebstore.google.com/detail/bnjihpbocpimaipifanfkjjpfdbigggd) 安装。
+1. 按[安装与更新](#安装与更新)加载本仓库的 `extension/` 目录。
 2. 设置 → 「AI 平台」 → 「+ 添加平台」，选预设，填 API Key，点「测试连接」。浏览器问能否访问这个地址时点允许。设置改了就存，不用点保存。支持 DeepSeek、智谱 GLM、Kimi、MiniMax、OpenRouter 和任意 OpenAI 兼容接口。可以加多个，在侧边栏的「选择 AI 平台」里切换；分拣台的 AI 也用这里选的平台。
 3. 登录 B站。B站只给登录用户看字幕（AI 字幕也一样），分拣台也要登录才能读收藏夹。
 4. 打开一个 B站或 YouTube 视频，点插件图标里的 **✦ AI 总结**。
@@ -39,6 +41,7 @@
 
 **理**（仅 B站）
 - 分拣台：AI 先看标题、再读字幕，告诉你收藏夹里每个视频值得留、可清理还是拿不准，再由你保留或取消收藏。**取消收藏会真的在 B站取消**，按 U 可以撤销。详见 [分拣台说明](docs/TRIAGE.md)。
+- 订阅合集：切到分拣台顶部的「合集」，每个合集显示 AI 提炼的一句话主题和内容标签、最新 3 条视频、最近更新时间、近 30 天更新数量和估算频率。可以按更新时间筛选、搜索和批量取消订阅。**取消订阅会真的在 B站生效，不能自动撤销。**
 - 给视频和 UP 主打标签，B站页面上也能看到标签。AI 判断要在设置 →「B站分拣台」里打开才在 B站页面显示。
 - 观看进度（默认关）：在封面上显示看到多少、看完了没有。
 
@@ -85,9 +88,27 @@ Agent 碰到视频通常只能看标题和封面。装了 MoonDigest，agent 能
 
 支持 Chrome 和其他 Chromium 内核浏览器（只在 Chrome 上测试过），不支持 Firefox。
 
-- **Chrome 应用商店**（推荐）：自动更新。新版要等审核，通常比 GitHub 晚几小时到几天。
-- **zip 包**：从 [Releases](https://github.com/PathGao/MoonDigest/releases/latest) 下载，解压到一个以后不会移动的文件夹，在 `chrome://extensions` 打开「开发者模式」，「加载已解压的扩展程序」。更新时**解压覆盖原来的文件夹**再点刷新；换一个文件夹加载，Chrome 会当成新扩展，原来的数据全部丢失。
-- 商店版和 zip 版是两个扩展，数据不互通，二选一。装过 Bilibili Obsidian Clipper 的话先停用它。
+### 安装这个 fork
+
+1. 克隆仓库：
+
+   ```sh
+   git clone https://github.com/zjzjy/MoonDigest.git
+   ```
+
+2. 打开 `chrome://extensions`，开启「开发者模式」。
+3. 点击「加载已解压的扩展程序」，选择仓库里的 `extension/` 目录。
+4. 如果 Chrome 里已经启用了应用商店版 MoonDigest，请先停用商店版。两边清单沿用同一个 `key` 和扩展 ID，不能同时启用；先停用再加载可以让本 fork 继续使用原来的设置、登录态和 AI API Key。
+
+更新这个 fork：
+
+```sh
+git pull
+```
+
+然后在 `chrome://extensions` 里点击 MoonDigest 卡片上的刷新按钮。不要把 `extension/` 目录移走，也不要另换目录加载，否则 Chrome 会把它当成另一个扩展。
+
+需要自动更新时，可以继续使用[上游 Chrome 应用商店版](https://chromewebstore.google.com/detail/bnjihpbocpimaipifanfkjjpfdbigggd)，但商店版不包含本 fork 的“合集”功能。
 
 ## 隐私与数据
 
